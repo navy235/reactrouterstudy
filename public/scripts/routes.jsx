@@ -2,9 +2,10 @@ var React = require('react');
 var Router = require('react-router');
 var Route = Router.Route;
 var DefaultRoute = Router.DefaultRoute;
-
+var NotFoundRoute = Router.NotFoundRoute;
 var App = require('./App')
 var Home = require('./Home')
+var NotFound = require('./NotFound')
 var About = require('./About')
 var Inbox = require('./Inbox')
 var Message = require('./Message')
@@ -17,6 +18,7 @@ var routes = (
             <Route path="messages/:id" handler={Message}/>
             <Route path="/archive/messages/:id" handler={Message}/>
         </Route>
+        <NotFoundRoute handler={NotFound} />
     </Route>
 );
 
