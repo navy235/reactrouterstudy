@@ -17,6 +17,7 @@ var config = {
     entry: {
         client: ['./scripts/routes']
     },
+    devtool: "source-map",
     output: {
         path: path.join(__dirname, '/public/build'),
         publicPath: '/build/', //for the chunks to be downloaded from.
@@ -28,12 +29,16 @@ var config = {
             {
                 test: /\.dust$/,
                 loader: "dust"
-            }
+            },
+            {
+                test: /\.jsx/,
+                loader: 'jsx-loader?harmony' },
+
         ],
     },
     resolve: {
         // Allow require('./blah') to require blah.jsx
-        extensions: ['', '.js', '.dust']
+        extensions: ['', '.js','.jsx', '.dust']
     },
     externals: {
         // Use external version of React (from CDN for client-side, or bundled with ReactJS.NET for server-side)
