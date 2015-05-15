@@ -19,8 +19,12 @@ var App = React.createClass({
                     <li>
                         <Link to="about" >about</Link>
                     </li>
-                    <li><a href="#notfound">notfound</a></li>
-                    <li><a href="#redirect">redirect</a></li>
+                    <li>
+                        <Link to="todo" >todo</Link>
+                    </li>
+                    <li>
+                        <a href="/notfound">notfound</a></li>
+                    <li><a href="/redirect">redirect</a></li>
                 </ul>
                 <h1>App</h1>
                 <RouteHandler/>

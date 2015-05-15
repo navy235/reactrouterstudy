@@ -12,7 +12,8 @@ var {
     NotFound,
     About,
     Inbox,
-    Message
+    Message,
+    Todo
     }=require('./components');
 // declare our routes and their hierarchy
 var routes = (
@@ -22,6 +23,9 @@ var routes = (
         <Route name="inbox" path="inbox" handler={Inbox}>
             <Route name="message" path="messages/:id" handler={Message}/>
             <Route path="/archive/messages/:id" handler={Message}/>
+        </Route>
+        <Route name="todo" path="todo" handler={Todo.TodoApp}>
+            <Route name="todofilter" path="/todo/:status" handler={Todo.TodoMain} />
         </Route>
         <Redirect from="redirect" to="about" />
         <NotFoundRoute handler={NotFound} />
