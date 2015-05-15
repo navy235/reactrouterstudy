@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-//var routes = require('./routes/index');
+var ApiRoutes = require('./routes/index');
 //var users = require('./routes/users');
 var app = express();
 var dust = require('express-dustjs');
@@ -42,7 +42,9 @@ app.use(express.static(__dirname + '/public'));
 app.use('/static', express.static(__dirname + '/public'));
 
 // if using express it might look like this
-app.use(function (req, res) {
+app.use('/api', ApiRoutes);
+
+app.get('*',function (req, res) {
     // pass in `req.url` and the router will immediately match
     Router.run(routes, req.path, function (routeHandler) {
         var routeComponent=React.createFactory(routeHandler)
@@ -50,9 +52,5 @@ app.use(function (req, res) {
         res.render('index/index', {content: content});
     });
 });
-
-//app.use('/', routes);
-//app.use('/users', users);
-
 
 module.exports = app;
