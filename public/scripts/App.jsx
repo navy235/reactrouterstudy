@@ -4,15 +4,21 @@
 var React = require('react');
 var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
-
+var Link = Router.Link;
 var App = React.createClass({
     render () {
         return (
             <div>
                 <ul>
-                    <li><a href="#">home</a></li>
-                    <li><a href="#inbox">inbox</a></li>
-                    <li><a href="#about">about</a></li>
+                    <li>
+                        <Link to="home" >home</Link>
+                    </li>
+                    <li>
+                        <Link to="inbox" >inbox</Link>
+                    </li>
+                    <li>
+                        <Link to="about" >about</Link>
+                    </li>
                     <li><a href="#notfound">notfound</a></li>
                     <li><a href="#redirect">redirect</a></li>
                 </ul>

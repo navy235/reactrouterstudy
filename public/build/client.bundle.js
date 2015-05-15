@@ -134,15 +134,21 @@
 	var React = __webpack_require__(8);
 	var Router = __webpack_require__(9);
 	var RouteHandler = Router.RouteHandler;
-	
+	var Link = Router.Link;
 	var App = React.createClass({displayName: "App",
 	    render:function () {
 	        return (
 	            React.createElement("div", null, 
 	                React.createElement("ul", null, 
-	                    React.createElement("li", null, React.createElement("a", {href: "#"}, "home")), 
-	                    React.createElement("li", null, React.createElement("a", {href: "#inbox"}, "inbox")), 
-	                    React.createElement("li", null, React.createElement("a", {href: "#about"}, "about")), 
+	                    React.createElement("li", null, 
+	                        React.createElement(Link, {to: "home"}, "home")
+	                    ), 
+	                    React.createElement("li", null, 
+	                        React.createElement(Link, {to: "inbox"}, "inbox")
+	                    ), 
+	                    React.createElement("li", null, 
+	                        React.createElement(Link, {to: "about"}, "about")
+	                    ), 
 	                    React.createElement("li", null, React.createElement("a", {href: "#notfound"}, "notfound")), 
 	                    React.createElement("li", null, React.createElement("a", {href: "#redirect"}, "redirect"))
 	                ), 
@@ -210,6 +216,7 @@
 	var React = __webpack_require__(8);
 	var Router = __webpack_require__(9);
 	var RouteHandler = Router.RouteHandler;
+	var Link = Router.Link;
 	
 	var Inbox = React.createClass({displayName: "Inbox",
 	    render:function() {
@@ -217,7 +224,8 @@
 	            React.createElement("div", null, 
 	                React.createElement("h1", null, "Inbox"), 
 	                React.createElement("p", null, 
-	                    React.createElement("a", {href: "#inbox/messages/3"}, " Message3"), React.createElement("br", null), 
+	                    React.createElement(Link, {to: "message", params: {id:3}}, "Message3"), 
+	                    React.createElement("br", null), 
 	                    React.createElement("a", {href: "#archive/messages/4"}, " Message4")
 	                ), 
 	                React.createElement(RouteHandler, null)
@@ -12595,10 +12603,10 @@
 	// declare our routes and their hierarchy
 	var routes = (
 	    React.createElement(Route, {path: "/", handler: App}, 
-	        React.createElement(DefaultRoute, {handler: Home}), 
+	        React.createElement(DefaultRoute, {name: "home", handler: Home}), 
 	        React.createElement(Route, {name: "about", path: "about", handler: About}), 
-	        React.createElement(Route, {path: "inbox", handler: Inbox}, 
-	            React.createElement(Route, {path: "messages/:id", handler: Message}), 
+	        React.createElement(Route, {name: "inbox", path: "inbox", handler: Inbox}, 
+	            React.createElement(Route, {name: "message", path: "messages/:id", handler: Message}), 
 	            React.createElement(Route, {path: "/archive/messages/:id", handler: Message})
 	        ), 
 	        React.createElement(Redirect, {from: "redirect", to: "about"}), 
@@ -13612,8 +13620,8 @@
 	var SyntheticMouseEvent = __webpack_require__(142);
 	var SyntheticDragEvent = __webpack_require__(157);
 	var SyntheticTouchEvent = __webpack_require__(161);
-	var SyntheticUIEvent = __webpack_require__(163);
-	var SyntheticWheelEvent = __webpack_require__(162);
+	var SyntheticUIEvent = __webpack_require__(162);
+	var SyntheticWheelEvent = __webpack_require__(163);
 	
 	var getEventCharCode = __webpack_require__(164);
 	
@@ -17904,7 +17912,7 @@
 	
 	'use strict';
 	
-	var SyntheticUIEvent = __webpack_require__(163);
+	var SyntheticUIEvent = __webpack_require__(162);
 	var ViewportMetrics = __webpack_require__(169);
 	
 	var getEventModifierState = __webpack_require__(185);
@@ -19335,7 +19343,7 @@
 	
 	'use strict';
 	
-	var SyntheticUIEvent = __webpack_require__(163);
+	var SyntheticUIEvent = __webpack_require__(162);
 	
 	/**
 	 * @interface FocusEvent
@@ -19378,7 +19386,7 @@
 	
 	'use strict';
 	
-	var SyntheticUIEvent = __webpack_require__(163);
+	var SyntheticUIEvent = __webpack_require__(162);
 	
 	var getEventCharCode = __webpack_require__(164);
 	var getEventKey = __webpack_require__(190);
@@ -19469,7 +19477,7 @@
 	
 	'use strict';
 	
-	var SyntheticUIEvent = __webpack_require__(163);
+	var SyntheticUIEvent = __webpack_require__(162);
 	
 	var getEventModifierState = __webpack_require__(185);
 	
@@ -19505,71 +19513,6 @@
 
 /***/ },
 /* 162 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule SyntheticWheelEvent
-	 * @typechecks static-only
-	 */
-	
-	'use strict';
-	
-	var SyntheticMouseEvent = __webpack_require__(142);
-	
-	/**
-	 * @interface WheelEvent
-	 * @see http://www.w3.org/TR/DOM-Level-3-Events/
-	 */
-	var WheelEventInterface = {
-	  deltaX: function(event) {
-	    return (
-	      'deltaX' in event ? event.deltaX :
-	      // Fallback to `wheelDeltaX` for Webkit and normalize (right is positive).
-	      'wheelDeltaX' in event ? -event.wheelDeltaX : 0
-	    );
-	  },
-	  deltaY: function(event) {
-	    return (
-	      'deltaY' in event ? event.deltaY :
-	      // Fallback to `wheelDeltaY` for Webkit and normalize (down is positive).
-	      'wheelDeltaY' in event ? -event.wheelDeltaY :
-	      // Fallback to `wheelDelta` for IE<9 and normalize (down is positive).
-	      'wheelDelta' in event ? -event.wheelDelta : 0
-	    );
-	  },
-	  deltaZ: null,
-	
-	  // Browsers without "deltaMode" is reporting in raw wheel delta where one
-	  // notch on the scroll is always +/- 120, roughly equivalent to pixels.
-	  // A good approximation of DOM_DELTA_LINE (1) is 5% of viewport size or
-	  // ~40 pixels, for DOM_DELTA_SCREEN (2) it is 87.5% of viewport size.
-	  deltaMode: null
-	};
-	
-	/**
-	 * @param {object} dispatchConfig Configuration used to dispatch this event.
-	 * @param {string} dispatchMarker Marker identifying the event target.
-	 * @param {object} nativeEvent Native browser event.
-	 * @extends {SyntheticMouseEvent}
-	 */
-	function SyntheticWheelEvent(dispatchConfig, dispatchMarker, nativeEvent) {
-	  SyntheticMouseEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
-	}
-	
-	SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
-	
-	module.exports = SyntheticWheelEvent;
-
-
-/***/ },
-/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -19632,6 +19575,71 @@
 	SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 	
 	module.exports = SyntheticUIEvent;
+
+
+/***/ },
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule SyntheticWheelEvent
+	 * @typechecks static-only
+	 */
+	
+	'use strict';
+	
+	var SyntheticMouseEvent = __webpack_require__(142);
+	
+	/**
+	 * @interface WheelEvent
+	 * @see http://www.w3.org/TR/DOM-Level-3-Events/
+	 */
+	var WheelEventInterface = {
+	  deltaX: function(event) {
+	    return (
+	      'deltaX' in event ? event.deltaX :
+	      // Fallback to `wheelDeltaX` for Webkit and normalize (right is positive).
+	      'wheelDeltaX' in event ? -event.wheelDeltaX : 0
+	    );
+	  },
+	  deltaY: function(event) {
+	    return (
+	      'deltaY' in event ? event.deltaY :
+	      // Fallback to `wheelDeltaY` for Webkit and normalize (down is positive).
+	      'wheelDeltaY' in event ? -event.wheelDeltaY :
+	      // Fallback to `wheelDelta` for IE<9 and normalize (down is positive).
+	      'wheelDelta' in event ? -event.wheelDelta : 0
+	    );
+	  },
+	  deltaZ: null,
+	
+	  // Browsers without "deltaMode" is reporting in raw wheel delta where one
+	  // notch on the scroll is always +/- 120, roughly equivalent to pixels.
+	  // A good approximation of DOM_DELTA_LINE (1) is 5% of viewport size or
+	  // ~40 pixels, for DOM_DELTA_SCREEN (2) it is 87.5% of viewport size.
+	  deltaMode: null
+	};
+	
+	/**
+	 * @param {object} dispatchConfig Configuration used to dispatch this event.
+	 * @param {string} dispatchMarker Marker identifying the event target.
+	 * @param {object} nativeEvent Native browser event.
+	 * @extends {SyntheticMouseEvent}
+	 */
+	function SyntheticWheelEvent(dispatchConfig, dispatchMarker, nativeEvent) {
+	  SyntheticMouseEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
+	}
+	
+	SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
+	
+	module.exports = SyntheticWheelEvent;
 
 
 /***/ },

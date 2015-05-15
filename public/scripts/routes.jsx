@@ -13,10 +13,10 @@ var Message = require('./Message')
 // declare our routes and their hierarchy
 var routes = (
     <Route path="/" handler={App}>
-        <DefaultRoute handler={Home}/>
+        <DefaultRoute name="home" handler={Home}/>
         <Route name="about" path="about" handler={About}/>
-        <Route path="inbox" handler={Inbox}>
-            <Route path="messages/:id" handler={Message}/>
+        <Route name="inbox" path="inbox" handler={Inbox}>
+            <Route name="message" path="messages/:id" handler={Message}/>
             <Route path="/archive/messages/:id" handler={Message}/>
         </Route>
         <Redirect from="redirect" to="about" />
