@@ -1,1 +1,4 @@
 {>"shared/layout"/}
+{<body_section}
+    {content|s}
+{/body_section}

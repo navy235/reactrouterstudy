@@ -15,7 +15,7 @@ var webpack = require("webpack");
 var config = {
     context: path.join(__dirname, '/public'),
     entry: {
-        client: ['./scripts/routes']
+        client: ['./scripts/start']
     },
     devtool: "source-map",
     output: {

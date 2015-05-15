@@ -4,10 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var routes = require('./routes/index');
-var users = require('./routes/users');
+//var routes = require('./routes/index');
+//var users = require('./routes/users');
 var app = express();
-var dust = require('express-dustjs')
+var dust = require('express-dustjs');
+require('node-jsx').install({harmony: true, extension: '.jsx'});
+var React = require('react');
+var Router = require('react-router');
+var routes = require("./public/scripts/routes.jsx");
 
 var client_webpack = require('./webpack.client.config');
 
@@ -37,39 +41,18 @@ app.set('views', __dirname + '/views')
 app.use(express.static(__dirname + '/public'));
 app.use('/static', express.static(__dirname + '/public'));
 
-app.use('/', routes);
-app.use('/users', users);
+// if using express it might look like this
+app.use(function (req, res) {
+    // pass in `req.url` and the router will immediately match
+    Router.run(routes, req.path, function (routeHandler) {
+        var routeComponent=React.createFactory(routeHandler)
+        var content = React.renderToString(routeComponent());
+        res.render('index/index', {content: content});
+    });
+});
 
-//// catch 404 and forward to error handler
-//app.use(function (req, res, next) {
-//    var err = new Error('Not Found');
-//    err.status = 404;
-//    next(err);
-//});
-//
-//// error handlers
-//
-//// development error handler
-//// will print stacktrace
-//if (app.get('env') === 'development') {
-//    app.use(function (err, req, res, next) {
-//        res.status(err.status || 500);
-//        res.render('error', {
-//            message: err.message,
-//            error: err
-//        });
-//    });
-//}
-
-// production error handler
-// no stacktraces leaked to user
-//app.use(function (err, req, res, next) {
-//    res.status(err.status || 500);
-//    res.render('error', {
-//        message: err.message,
-//        error: {}
-//    });
-//});
+//app.use('/', routes);
+//app.use('/users', users);
 
 
 module.exports = app;
