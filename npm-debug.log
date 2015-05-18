@@ -1,0 +1,89 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'E:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'E:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'node-fibers',
+1 verbose cli   '--save' ]
+2 info using npm@2.5.1
+3 info using node@v0.12.0
+4 verbose node symlink E:\Program Files\nodejs\\node.exe
+5 warn package.json dust-loader@1.0.1 No repository field.
+6 warn package.json node-libs-browser@0.5.0 No repository field.
+7 silly cache add args [ 'node-fibers', null ]
+8 verbose cache add spec node-fibers
+9 silly cache add parsed spec { raw: 'node-fibers',
+9 silly cache add   scope: null,
+9 silly cache add   name: 'node-fibers',
+9 silly cache add   rawSpec: '',
+9 silly cache add   spec: '*',
+9 silly cache add   type: 'range' }
+10 verbose addNamed node-fibers@*
+11 silly addNamed semver.valid null
+12 silly addNamed semver.validRange *
+13 silly addNameRange { name: 'node-fibers', range: '*', hasData: false }
+14 silly mapToRegistry name node-fibers
+15 silly mapToRegistry using default registry
+16 silly mapToRegistry registry https://registry.npmjs.org/
+17 silly mapToRegistry uri https://registry.npmjs.org/node-fibers
+18 verbose addNameRange registry:https://registry.npmjs.org/node-fibers not in flight; fetching
+19 verbose request uri https://registry.npmjs.org/node-fibers
+20 verbose request no auth needed
+21 info attempt registry request try #1 at 3:30:58 PM
+22 verbose request id 052278ef1de4e65f
+23 http request GET https://registry.npmjs.org/node-fibers
+24 http 404 https://registry.npmjs.org/node-fibers
+25 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+25 verbose headers   'content-type': 'application/json',
+25 verbose headers   'cache-control': 'max-age=0',
+25 verbose headers   'content-length': '51',
+25 verbose headers   'accept-ranges': 'bytes',
+25 verbose headers   date: 'Mon, 18 May 2015 20:30:58 GMT',
+25 verbose headers   via: '1.1 varnish',
+25 verbose headers   age: '0',
+25 verbose headers   connection: 'keep-alive',
+25 verbose headers   'x-served-by': 'cache-ord1735-ORD',
+25 verbose headers   'x-cache': 'MISS',
+25 verbose headers   'x-cache-hits': '0',
+25 verbose headers   'x-timer': 'S1431981058.501908,VS0,VE277' }
+26 silly get cb [ 404,
+26 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+26 silly get     'content-type': 'application/json',
+26 silly get     'cache-control': 'max-age=0',
+26 silly get     'content-length': '51',
+26 silly get     'accept-ranges': 'bytes',
+26 silly get     date: 'Mon, 18 May 2015 20:30:58 GMT',
+26 silly get     via: '1.1 varnish',
+26 silly get     age: '0',
+26 silly get     connection: 'keep-alive',
+26 silly get     'x-served-by': 'cache-ord1735-ORD',
+26 silly get     'x-cache': 'MISS',
+26 silly get     'x-cache-hits': '0',
+26 silly get     'x-timer': 'S1431981058.501908,VS0,VE277' } ]
+27 verbose stack Error: 404 Not Found: node-fibers
+27 verbose stack     at CachingRegistryClient.<anonymous> (E:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:251:14)
+27 verbose stack     at Request._callback (E:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:178:14)
+27 verbose stack     at Request.self.callback (E:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:344:22)
+27 verbose stack     at Request.emit (events.js:110:17)
+27 verbose stack     at Request.<anonymous> (E:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1239:14)
+27 verbose stack     at Request.emit (events.js:129:20)
+27 verbose stack     at IncomingMessage.<anonymous> (E:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1187:12)
+27 verbose stack     at IncomingMessage.emit (events.js:129:20)
+27 verbose stack     at _stream_readable.js:908:16
+27 verbose stack     at process._tickCallback (node.js:355:11)
+28 verbose statusCode 404
+29 verbose pkgid node-fibers
+30 verbose cwd E:\WorkSpace\GitStudy\ReactRouteStudy
+31 error Windows_NT 6.1.7601
+32 error argv "E:\\Program Files\\nodejs\\\\node.exe" "E:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "node-fibers" "--save"
+33 error node v0.12.0
+34 error npm  v2.5.1
+35 error code E404
+36 error 404 Not Found: node-fibers
+36 error 404
+36 error 404 'node-fibers' is not in the npm registry.
+36 error 404 You should bug the author to publish it (or use the name yourself!)
+36 error 404 It was specified as a dependency of 'ReactRouteStudy'
+36 error 404
+36 error 404 Note that you can also install from a
+36 error 404 tarball, folder, http url, or git url.
+37 verbose exit [ 1, true ]

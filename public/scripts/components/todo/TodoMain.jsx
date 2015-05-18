@@ -10,6 +10,7 @@ var TodoItem = require('./TodoItem');
 var Cn = require('classname');
 var _ = require("underscore");
 
+
 var TodoMain = React.createClass({
     mixins: [Router.State],
     propTypes: {
@@ -43,7 +44,7 @@ var TodoMain = React.createClass({
                 <label htmlFor="toggle-all">Mark all as complete</label>
                 <ul id="todo-list">
                         { filteredList.map(function (item) {
-                            return <TodoItem label={item.label} isComplete={item.isComplete} id={item.key} key={item.key}/>;
+                            return <TodoItem label={item.label} isComplete={item.isComplete} id={item._id} key={item._id}/>;
                         })}
                 </ul>
             </section>

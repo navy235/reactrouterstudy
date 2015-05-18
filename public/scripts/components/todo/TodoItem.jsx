@@ -1,7 +1,7 @@
 /**
  * Created by hshen on 5/15/2015.
  */
-var React = require('react/addons');
+var React = require('react');
 var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
 var Reflux = require('reflux');
@@ -13,51 +13,57 @@ var TodoItem = React.createClass({
     propTypes: {
         label: React.PropTypes.string.isRequired,
         isComplete: React.PropTypes.bool.isRequired,
-        id: React.PropTypes.number
+        id: React.PropTypes.string
     },
-    mixins: [React.addons.LinkedStateMixin], // exposes this.linkState used in render
-    getInitialState: function() {
-        return {};
+    //mixins: [React.addons.LinkedStateMixin], // exposes this.linkState used in render
+    getInitialState: function () {
+        return {
+            isEditing: false,
+            editValue: this.props.label
+        };
     },
-    handleToggle: function(evt) {
+    handleToggle: function (evt) {
         TodoActions.toggleItem(this.props.id);
     },
-    handleEditStart: function(evt) {
+    handleEditStart: function (evt) {
         evt.preventDefault();
         // because of linkState call in render, field will get value from this.state.editValue
         this.setState({
-            isEditing: true,
-            editValue: this.props.label
-        }, function() {
+            isEditing: true
+        }, function () {
             this.refs.editInput.getDOMNode().focus();
         });
     },
-    handleValueChange: function(evt) {
-        var text = this.state.editValue; // because of the linkState call in render, this is the contents of the field
+    handleValueChange: function (evt) {
+        var text = evt.target.value; // because of the linkState call in render, this is the contents of the field
         // we pressed enter, if text isn't empty we blur the field which will cause a save
         if (evt.which === 13 && text) {
             this.refs.editInput.getDOMNode().blur();
         }
         // pressed escape. set editing to false before blurring so we won't save
         else if (evt.which === 27) {
-            this.setState({ isEditing: false },function(){
+            this.setState({isEditing: false}, function () {
                 this.refs.editInput.getDOMNode().blur();
             });
+        } else {
+            this.setState({
+                editValue: text
+            })
         }
     },
-    handleBlur: function() {
+    handleBlur: function () {
         var text = this.state.editValue; // because of the linkState call in render, this is the contents of the field
         // unless we're not editing (escape was pressed) or text is empty, save!
         if (this.state.isEditing && text) {
             TodoActions.editItem(this.props.id, text);
         }
         // whatever the outcome, if we left the field we're not editing anymore
-        this.setState({isEditing:false});
+        this.setState({isEditing: false});
     },
-    handleDestroy: function() {
+    handleDestroy: function () {
         TodoActions.removeItem(this.props.id);
     },
-    render: function() {
+    render: function () {
         var classes = Cn({
             'completed': this.props.isComplete,
             'editing': this.state.isEditing
@@ -69,10 +75,10 @@ var TodoItem = React.createClass({
                     <label onDoubleClick={this.handleEditStart}>{this.props.label}</label>
                     <button className="destroy" onClick={this.handleDestroy}></button>
                 </div>
-                <input ref="editInput" className="edit" valueLink={this.linkState('editValue')} onKeyUp={this.handleValueChange} onBlur={this.handleBlur} />
+                <input ref="editInput" className="edit" value={this.state.editValue} onKeyUp={this.handleValueChange} onBlur={this.handleBlur} />
             </li>
         );
     }
 });
 
-module.exports=TodoItem;
+module.exports = TodoItem;

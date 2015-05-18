@@ -5,13 +5,21 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var ApiRoutes = require('./routes/index');
-//var users = require('./routes/users');
 var app = express();
 var dust = require('express-dustjs');
 require('node-jsx').install({harmony: true, extension: '.jsx'});
 var React = require('react');
 var Router = require('react-router');
 var routes = require("./public/scripts/routes.jsx");
+
+var mongoose = require('mongoose');
+mongoose.createConnection('mongodb://localhost/todo', function(err) {
+    if(err) {
+        console.log('connection error', err);
+    } else {
+        console.log('connection successful');
+    }
+});
 
 var client_webpack = require('./webpack.client.config');
 

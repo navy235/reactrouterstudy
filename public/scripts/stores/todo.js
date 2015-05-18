@@ -4,87 +4,111 @@
 var Reflux = require('reflux');
 var TodoActions = require('../actions/todo');
 var _ = require("underscore");
-
-var todoCounter = 0,
-    localStorageKey = "todos";
+var request = require('superagent')
 
 function getItemByKey(list, itemKey) {
     return _.find(list, function (item) {
-        return item.key === itemKey;
+        return item._id === itemKey;
     });
 }
 var TodoStore = Reflux.createStore({
     // this will set up listeners to all publishers in TodoActions, using onKeyname (or keyname) as callbacks
     listenables: [TodoActions],
     onEditItem: function (itemKey, newLabel) {
+        var self = this;
         var foundItem = getItemByKey(this.list, itemKey);
         if (!foundItem) {
             return;
         }
-        foundItem.label = newLabel;
-        this.updateList(this.list);
+        var index = _.indexOf(this.list, foundItem);
+        request.put('http://localhost:3000/api/todo/' + foundItem._id)
+            .send({label: newLabel})
+            .end(function (err, res) {
+                self.list[index] = res.body;
+                self.updateList(self.list);
+            });
     },
     onAddItem: function (label) {
-        this.updateList([{
-            key: todoCounter++,
-            created: new Date(),
-            isComplete: false,
-            label: label
-        }].concat(this.list));
+        var self = this;
+        request.post('http://localhost:3000/api/todo')
+            .send({isComplete: false, label: label})
+            .end(function (err, res) {
+                self.list.push(res.body);
+                self.updateList(self.list);
+            });
     },
     onRemoveItem: function (itemKey) {
-        this.updateList(_.filter(this.list, function (item) {
-            return item.key !== itemKey;
-        }));
-    },
-    onToggleItem: function (itemKey) {
+        var self = this;
         var foundItem = getItemByKey(this.list, itemKey);
         if (foundItem) {
-            foundItem.isComplete = !foundItem.isComplete;
-            this.updateList(this.list);
+            var index = _.indexOf(this.list, foundItem);
+            request.del('http://localhost:3000/api/todo/' + foundItem._id)
+                .end(function (err, res) {
+                    if (res.body.success) {
+                        self.list.splice(index, 1);
+                        self.updateList(self.list);
+                    }
+                });
+        }
+
+    },
+    onToggleItem: function (itemKey) {
+        var self = this;
+        var foundItem = getItemByKey(this.list, itemKey);
+        if (foundItem) {
+            var index = _.indexOf(this.list, foundItem);
+            request.put('http://localhost:3000/api/todo/' + foundItem._id)
+                .send({isComplete: !foundItem.isComplete})
+                .end(function (err, res) {
+                    self.list[index] = res.body;
+                    self.updateList(self.list);
+                });
+
         }
     },
     onToggleAllItems: function (checked) {
-        this.updateList(_.map(this.list, function (item) {
-            item.isComplete = checked;
-            return item;
-        }));
+        var self = this;
+        request.post('http://localhost:3000/api/todo/toggleall')
+            .send({isComplete: true})
+            .end(function (err, res) {
+                if (res.body.success) {
+                    self.updateList(_.map(self.list, function (item) {
+                        item.isComplete = checked;
+                        return item;
+                    }));
+                }
+            });
     },
     onClearCompleted: function () {
-        this.updateList(_.filter(this.list, function (item) {
-            return !item.isComplete;
-        }));
+        var self = this;
+        request.post('http://localhost:3000/api/todo/clearcompleted')
+            .end(function (err, res) {
+                if (res.success) {
+                    self.updateList(_.filter(self.list, function (item) {
+                        return true;
+                    }));
+                }
+            });
     },
     // called whenever we change a list. normally this would mean a database API call
     updateList: function (list) {
-        localStorage.setItem(localStorageKey, JSON.stringify(list));
-        // if we used a real database, we would likely do the below in a callback
         this.list = list;
         this.trigger(list); // sends the updated list to all listening components (TodoApp)
     },
     // this will be called by all listening components as they register their listeners
     getInitialState: function () {
-        //if (localStorage == undefined) {
-        //    this.list = [];
-        //    return this.list;
-        //}
-        //var loadedList = localStorage.getItem(localStorageKey);
-        //if (!loadedList) {
-        //    // If no list is in localstorage, start out with a default one
-        this.list = [{
-            key: todoCounter++,
-            created: new Date(),
-            isComplete: false,
-            label: 'Rule the web'
-        }];
-        //} else {
-        //    this.list = _.map(JSON.parse(loadedList), function (item) {
-        //        // just resetting the key property for each todo item
-        //        item.key = todoCounter++;
-        //        return item;
-        //    });
-        //}
-        return this.list;
+        var self = this;
+
+        self.getTodoList(function (res) {
+            self.list = res.body;
+            self.trigger(res.body)
+        });
+    },
+    getTodoList: function (callback) {
+        request.get('http://localhost:3000/api/todo')
+            .end(function (err, res) {
+                callback(res);
+            });
     }
 });
 module.exports = TodoStore;
