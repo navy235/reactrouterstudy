@@ -20,7 +20,7 @@ var App = React.createClass({
                         <Link to="about" >about</Link>
                     </li>
                     <li>
-                        <Link to="todo" >todo</Link>
+                        <Link to="todofilter"  params={{status: "all"}} >todo</Link>
                     </li>
                     <li>
                         <a href="/notfound">notfound</a></li>
