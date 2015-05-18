@@ -23,7 +23,7 @@ var TodoItem = React.createClass({
         };
     },
     handleToggle: function(evt) {
-        TodoActions.toggleItem(this.props.id);
+        TodoActions.toggleItem(this.props.id,evt.target.checked);
     },
     handleEditStart: function(evt) {
         evt.preventDefault();

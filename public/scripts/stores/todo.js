@@ -52,13 +52,13 @@ var TodoStore = Reflux.createStore({
         }
 
     },
-    onToggleItem: function (itemKey) {
+    onToggleItem: function (itemKey,checked) {
         var self = this;
         var foundItem = getItemByKey(this.list, itemKey);
         if (foundItem) {
             var index = _.indexOf(this.list, foundItem);
             request.put('http://localhost:3000/api/todo/' + foundItem._id)
-                .send({isComplete: !foundItem.isComplete})
+                .send({isComplete: checked})
                 .end(function (err, res) {
                     self.list[index] = res.body;
                     self.updateList(self.list);
@@ -69,7 +69,7 @@ var TodoStore = Reflux.createStore({
     onToggleAllItems: function (checked) {
         var self = this;
         request.post('http://localhost:3000/api/todo/toggleall')
-            .send({isComplete: true})
+            .send({isComplete: checked})
             .end(function (err, res) {
                 if (res.body.success) {
                     self.updateList(_.map(self.list, function (item) {
@@ -83,9 +83,9 @@ var TodoStore = Reflux.createStore({
         var self = this;
         request.post('http://localhost:3000/api/todo/clearcompleted')
             .end(function (err, res) {
-                if (res.success) {
+                if (res.body.success) {
                     self.updateList(_.filter(self.list, function (item) {
-                        return true;
+                        return !item.isComplete;
                     }));
                 }
             });
