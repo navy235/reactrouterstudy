@@ -15,7 +15,8 @@ var webpack = require("webpack");
 var config = {
     context: path.join(__dirname, '/public'),
     entry: {
-        client: ['./scripts/start']
+        //client: ['./scripts/start']
+        client: ['./scripts/fluxiblestart']
     },
     devtool: "source-map",
     output: {

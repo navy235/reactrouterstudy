@@ -1,3 +1,4 @@
+require('node-jsx').install({harmony: true, extension: '.jsx'});
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -7,7 +8,6 @@ var bodyParser = require('body-parser');
 var ApiRoutes = require('./routes/index');
 var app = express();
 var dust = require('express-dustjs');
-require('node-jsx').install({harmony: true, extension: '.jsx'});
 var React = require('react');
 var Router = require('react-router');
 var routes = require("./public/scripts/routes.jsx");

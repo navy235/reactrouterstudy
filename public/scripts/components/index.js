@@ -8,6 +8,8 @@ var About = require('./About')
 var Inbox = require('./Inbox')
 var Message = require('./Message')
 var Todo = require('./todo');
+var FluxibleTodo = require('./fluxibleTodo')
+
 
 module.exports = {
     App: App,
@@ -16,5 +18,6 @@ module.exports = {
     About: About,
     Inbox: Inbox,
     Message: Message,
-    Todo: Todo
+    Todo: Todo,
+    FluxibleTodo:FluxibleTodo
 };

@@ -21,7 +21,7 @@ var TodoStore = Reflux.createStore({
             return;
         }
         var index = _.indexOf(this.list, foundItem);
-        request.put('http://localhost:3000/api/todo/' + foundItem._id)
+        request.put('http://localhost:3301/api/todo/' + foundItem._id)
             .send({label: newLabel})
             .end(function (err, res) {
                 self.list[index] = res.body;
@@ -30,7 +30,7 @@ var TodoStore = Reflux.createStore({
     },
     onAddItem: function (label) {
         var self = this;
-        request.post('http://localhost:3000/api/todo')
+        request.post('http://localhost:3301/api/todo')
             .send({isComplete: false, label: label})
             .end(function (err, res) {
                 self.list.push(res.body);
@@ -42,7 +42,7 @@ var TodoStore = Reflux.createStore({
         var foundItem = getItemByKey(this.list, itemKey);
         if (foundItem) {
             var index = _.indexOf(this.list, foundItem);
-            request.del('http://localhost:3000/api/todo/' + foundItem._id)
+            request.del('http://localhost:3301/api/todo/' + foundItem._id)
                 .end(function (err, res) {
                     if (res.body.success) {
                         self.list.splice(index, 1);
@@ -57,7 +57,7 @@ var TodoStore = Reflux.createStore({
         var foundItem = getItemByKey(this.list, itemKey);
         if (foundItem) {
             var index = _.indexOf(this.list, foundItem);
-            request.put('http://localhost:3000/api/todo/' + foundItem._id)
+            request.put('http://localhost:3301/api/todo/' + foundItem._id)
                 .send({isComplete: checked})
                 .end(function (err, res) {
                     self.list[index] = res.body;
@@ -68,7 +68,7 @@ var TodoStore = Reflux.createStore({
     },
     onToggleAllItems: function (checked) {
         var self = this;
-        request.post('http://localhost:3000/api/todo/toggleall')
+        request.post('http://localhost:3301/api/todo/toggleall')
             .send({isComplete: checked})
             .end(function (err, res) {
                 if (res.body.success) {
@@ -81,7 +81,7 @@ var TodoStore = Reflux.createStore({
     },
     onClearCompleted: function () {
         var self = this;
-        request.post('http://localhost:3000/api/todo/clearcompleted')
+        request.post('http://localhost:3301/api/todo/clearcompleted')
             .end(function (err, res) {
                 if (res.body.success) {
                     self.updateList(_.filter(self.list, function (item) {
@@ -105,7 +105,7 @@ var TodoStore = Reflux.createStore({
         });
     },
     getTodoList: function (callback) {
-        request.get('http://localhost:3000/api/todo')
+        request.get('http://localhost:3301/api/todo')
             .end(function (err, res) {
                 callback(res);
             });

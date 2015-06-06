@@ -13,7 +13,8 @@ var {
     About,
     Inbox,
     Message,
-    Todo
+    Todo,
+    FluxibleTodo
     }=require('./components');
 // declare our routes and their hierarchy
 var routes = (
@@ -24,8 +25,8 @@ var routes = (
             <Route name="message" path="messages/:id" handler={Message}/>
             <Route path="/archive/messages/:id" handler={Message}/>
         </Route>
-        <Route name="todo" path="todo" handler={Todo.TodoApp}>
-            <Route name="todofilter" path="/todo/:status" handler={Todo.TodoMain} />
+        <Route name="todo" path="todo" handler={FluxibleTodo.TodoApp}>
+            <Route name="todofilter" path="/todo/:status" handler={FluxibleTodo.TodoMain} />
         </Route>
         <Redirect from="redirect" to="about" />
         <NotFoundRoute handler={NotFound} />

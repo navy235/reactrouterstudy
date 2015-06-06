@@ -5,8 +5,25 @@ var React = require('react');
 var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
 var Link = Router.Link;
+var FluxibleMixin = require('fluxible/addons/FluxibleMixin');
+var ApplicationStore = require('../stores/ApplicationStore');
+var provideContext = require('fluxible/addons/provideContext');
+
 var App = React.createClass({
-    render () {
+
+    //mixins: [FluxibleMixin],
+
+    //statics: {
+    //    storeListeners: [ApplicationStore]
+    //},
+    contextTypes: {
+        executeAction: React.PropTypes.func.isRequired
+    },
+    //onChange: function () {
+    //    var state = this.getStore(ApplicationStore).getState();
+    //    this.setState(state);
+    //},
+    render() {
         return (
             <div>
                 <ul>
@@ -23,8 +40,11 @@ var App = React.createClass({
                         <Link to="todofilter"  params={{status: "all"}} >todo</Link>
                     </li>
                     <li>
-                        <a href="/notfound">notfound</a></li>
-                    <li><a href="/redirect">redirect</a></li>
+                        <a href="/notfound">notfound</a>
+                    </li>
+                    <li>
+                        <a href="/redirect">redirect</a>
+                    </li>
                 </ul>
                 <h1>App</h1>
                 <RouteHandler/>
@@ -32,4 +52,6 @@ var App = React.createClass({
         )
     }
 });
-module.exports=App;
+App = provideContext(App);
+
+module.exports = App;

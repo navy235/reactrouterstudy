@@ -2,3 +2,8 @@
 {<body_section}
     {content|s}
 {/body_section}
+{<script_section}
+    <script type="text/javascript">
+        window.App ={exposed|js|s}
+    </script>
+{/script_section}
