@@ -76,7 +76,16 @@ app.get('*', function (req, res) {
 
     var router = Router.create({
         routes: routes,
-        location: req.path
+        location: req.path,
+        onAbort: function(abortReason){
+            if (abortReason.constructor.name === 'Redirect') {
+                url = router.makePath(abortReason.to,abortReason.params,abortReason.query);
+                res.redirect(302,url);
+            }
+            else{
+                next(abortReason);
+            }
+        }
     });
 
     router.run(function (Handler, routerState) {
