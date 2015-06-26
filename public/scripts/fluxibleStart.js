@@ -56,10 +56,10 @@ app.rehydrate(dehydratedState, function (err, context) {
             RenderApp(context, Handler);
             firstRender = false;
         } else {
-            context.executeAction(navigateAction, state, function () {
+            //context.executeAction(navigateAction, state, function () {
                 RenderApp(context, Handler);
                 fetchData(context, state);
-            });
+            //});
         }
     });
 });
